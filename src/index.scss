@@ -6,6 +6,38 @@
   font-weight: 100 900;
 }
 
+:root {
+
+  /* Backgrounds */
+  --bg-50: #ffffff;
+  --bg-100: #f8f8fb;
+  --bg-200: #f9fafe;
+
+  /* Accent (primary) colour */
+  --accent-500: #7c5dfa;
+  --accent-300: #9277ff;
+
+  /* State colours */
+  --green-500: #33d69f;
+  --orange-500: #ff8f00;
+  --red-300: #ff9797;
+  --red-500: #ec5757;
+
+  /* Grays / Neutrals */
+  --gray-950: #0c0e16;
+  --gray-900: #141625;
+  --gray-920: #1e2139;
+  --gray-850: #252945;
+  --gray-800: #373b53;
+  --gray-700: #494e6e;
+  --gray-600: #7e88c3;
+  --gray-550: #777f98;
+  --gray-500: #888eb0;
+  --gray-450: #b0b4cc;
+  --gray-400: #858bb2;
+  --gray-100: #dfe3fa;
+}
+
 *,
 *::before,
 *::after {
