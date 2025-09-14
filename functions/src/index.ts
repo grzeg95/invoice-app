@@ -25,5 +25,6 @@ function handleOnCall(cr: CallableRequest, functionHandlerPath: string) {
 
 exports['invoice'] = {
   create: onCall((cr) => handleOnCall(cr, './endpoints/invoice/create')),
-  delete: onCall((cr) => handleOnCall(cr, './endpoints/invoice/delete'))
+  delete: onCall((cr) => handleOnCall(cr, './endpoints/invoice/delete')),
+  update: onCall((cr) => handleOnCall(cr, './endpoints/invoice/update'))
 };
