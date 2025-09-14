@@ -1,7 +1,7 @@
 import {firestore} from 'firebase-admin';
 import {initializeApp} from 'firebase-admin/app';
 import {setGlobalOptions} from "firebase-functions";
-import {CallableRequest} from 'firebase-functions/https';
+import {CallableRequest, onCall} from 'firebase-functions/https';
 import {globalErrorHandler} from './utils/global-error-handler';
 
 initializeApp();
@@ -22,3 +22,7 @@ firestore().settings({ ignoreUndefinedProperties: true });
 function handleOnCall(cr: CallableRequest, functionHandlerPath: string) {
   return require(functionHandlerPath).handler(cr).catch(globalErrorHandler);
 }
+
+exports['invoice'] = {
+  create: onCall((cr) => handleOnCall(cr, './endpoints/invoice/create'))
+};
