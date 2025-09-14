@@ -46,6 +46,8 @@
 
 body {
   margin: 0;
+  background: var(--bg-100);
+  color: var(--gray-950);
   font-family: 'League Spartan', sans-serif;
 }
 
@@ -61,4 +63,12 @@ button {
 img {
   display: block;
   max-width: 100%;
+}
+
+html[data-theme="dark"] {
+
+  body {
+    background: var(--gray-900);
+    color: white;
+  }
 }
