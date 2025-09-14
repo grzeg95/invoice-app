@@ -5,6 +5,7 @@ import './index.scss'
 import {App} from './App.tsx'
 import {AuthProvider} from './context/Auth/AuthProvider';
 import {BreakpointsProvider} from './context/Breakpoints/BreakpointsProvider.tsx';
+import {ThemeProvider} from './context/Theme/ThemeProvider';
 
 const queryClient = new QueryClient();
 
@@ -13,7 +14,9 @@ createRoot(document.getElementById('root')!).render(
     <QueryClientProvider client={queryClient}>
       <BreakpointsProvider>
         <AuthProvider>
-          <App/>
+          <ThemeProvider>
+            <App/>
+          </ThemeProvider>
         </AuthProvider>
       </BreakpointsProvider>
     </QueryClientProvider>
