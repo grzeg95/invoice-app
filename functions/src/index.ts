@@ -2,6 +2,7 @@ import {firestore} from 'firebase-admin';
 import {initializeApp} from 'firebase-admin/app';
 import {setGlobalOptions} from "firebase-functions";
 import {CallableRequest, onCall} from 'firebase-functions/https';
+import {handler as useroncreate} from './events/user-on-create';
 import {globalErrorHandler} from './utils/global-error-handler';
 
 initializeApp();
@@ -17,7 +18,7 @@ setGlobalOptions({
   enforceAppCheck: true
 });
 
-firestore().settings({ ignoreUndefinedProperties: true });
+firestore().settings({ignoreUndefinedProperties: true});
 
 function handleOnCall(cr: CallableRequest, functionHandlerPath: string) {
   return require(functionHandlerPath).handler(cr).catch(globalErrorHandler);
@@ -26,3 +27,5 @@ function handleOnCall(cr: CallableRequest, functionHandlerPath: string) {
 exports['invoice'] = {
   create: onCall((cr) => handleOnCall(cr, './endpoints/invoice/create'))
 };
+
+exports.useroncreate = useroncreate;

@@ -33,7 +33,7 @@ const invoiceSchema = z.object({
   }))
 });
 
-export const handler = <T>(request: CallableRequest) => {
+export const handler = <T>(request: CallableRequest | {data: T, auth: {uid: string;}}) => {
 
   testRequirement(!request.auth, {code: 'unauthenticated'});
   const auth = request.auth!;
