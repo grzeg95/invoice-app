@@ -1,0 +1,131 @@
+@use '../../styles/layout' as layout;
+
+.nav {
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--gray-800);
+  height: 72px;
+  position: fixed;
+  width: 100%;
+  z-index: 2000;
+
+  @include layout.from-tablet() {
+    height: 80px;
+  }
+
+  @include layout.from-desktop() {
+    width: 103px;
+    height: 100vh;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    flex-direction: column;
+  }
+}
+
+.nav-logo {
+
+  height: 100%;
+  aspect-ratio: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--accent-500);
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+  position: relative;
+  overflow: hidden;
+
+
+  @include layout.from-desktop() {
+    height: auto;
+    width: 103px;
+  }
+}
+
+.nav-logo::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 0;
+  background-color: var(--accent-300);
+  border-top-left-radius: 20px;
+}
+
+.nav-logo img {
+  width: 28px;
+  position: relative;
+  z-index: 1;
+
+  @include layout.from-tablet() {
+    width: 30px;
+  }
+
+  @include layout.from-desktop() {
+    width: 40px;
+  }
+}
+
+.nav-user-info {
+
+  display: flex;
+  height: 100%;
+  align-items: center;
+
+  @include layout.from-desktop() {
+    flex-direction: column;
+    height: auto;
+    width: 100%;
+  }
+}
+
+.nav-user-is-dark-mode {
+
+  margin-inline: 24px;
+  border: none;
+  background-color: transparent;
+  padding: 0;
+  display: flex;
+  width: 32px;
+  height: 32px;
+  align-items: center;
+  justify-content: center;
+
+  @include layout.from-desktop() {
+    margin-inline: 0;
+    margin-block: 24px;
+  }
+}
+
+.nav-user-is-dark-mode:hover svg path {
+  fill: var(--gray-100);
+}
+
+.nav-user-profile {
+
+  width: 32px;
+  margin-inline: 24px;
+  border-radius: 50%;
+  overflow: hidden;
+
+  @include layout.from-desktop() {
+    margin-inline: 0;
+    margin-block: 24px;
+  }
+}
+
+.vertical-separator {
+
+  height: 100%;
+  width: 1px;
+  background-color: var(--gray-700);
+
+  @include layout.from-desktop() {
+    height: 1px;
+    width: 100%;
+  }
+}
