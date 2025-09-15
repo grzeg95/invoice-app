@@ -1,0 +1,27 @@
+@use './styles/layout' as layout;
+
+.main-container {
+
+  display: flex;
+  flex-direction: column;
+
+  @include layout.from-desktop() {
+    flex-direction: row;
+  }
+}
+
+.content-container {
+
+  margin-top: 72px;
+  padding: 32px 24px;
+
+  @include layout.from-tablet() {
+    margin-top: 80px;
+  }
+
+  @include layout.from-desktop() {
+    margin-top: 0;
+    margin-left: 103px;
+    width: 100%;
+  }
+}
