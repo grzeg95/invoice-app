@@ -2,7 +2,7 @@ import {type ReactNode, type RefObject, useCallback, useEffect, useRef, useState
 import {createPortal} from 'react-dom';
 import styles from './Menu.module.scss';
 
-type StrategyName = 'bottom-center' | 'bottom-left' | 'bottom-left-left' | 'bottom-right' | 'bottom-right-right' | 'top-center' | 'top-left' | 'top-left-left' | 'top-right' | 'top-right-right' | 'left-center' | 'right-center';
+type StrategyName = 'bottom-center' | 'bottom-left-left' | 'bottom-left-right' | 'bottom-right-left' | 'bottom-right-right' | 'top-center' | 'top-left-left' | 'top-left-right' | 'top-right-left' | 'top-right-right' | 'left-center' | 'right-center';
 
 export type StrategyOption = {
   name: StrategyName;
@@ -44,19 +44,19 @@ export function Menu({children, triggerRef, strategiesOptions, onOpen, onClose}:
       const offsetY = strategyOption.offset?.y || 0;
 
       switch (strategyOption.name) {
-        case 'bottom-left':
-          top = triggerRect.bottom;
-          left =  triggerRect.left;
-          break;
         case 'bottom-left-left':
           top = triggerRect.bottom;
-          left =  triggerRect.left - menuRect.width;
+          left = triggerRect.left;
+          break;
+        case 'bottom-left-right':
+          top = triggerRect.bottom;
+          left = triggerRect.left - menuRect.width;
           break;
         case 'bottom-center':
           top = triggerRect.bottom;
           left = triggerRect.left + (triggerRect.width / 2) - (menuRect.width / 2);
           break;
-        case 'bottom-right':
+        case 'bottom-right-left':
           top = triggerRect.bottom;
           left = triggerRect.right;
           break;
@@ -64,33 +64,33 @@ export function Menu({children, triggerRef, strategiesOptions, onOpen, onClose}:
           top = triggerRect.bottom;
           left = triggerRect.right - menuRect.width;
           break;
-        case 'top-left':
-          top = triggerRect.top;
+        case 'top-left-left':
+          top = triggerRect.top - menuRect.height;
           left = triggerRect.left;
           break;
-        case 'top-left-left':
-          top = triggerRect.top;
+        case 'top-left-right':
+          top = triggerRect.top - menuRect.height;
           left = triggerRect.left - menuRect.width;
           break;
         case 'top-center':
           top = triggerRect.top - menuRect.height;
           left = triggerRect.left + (triggerRect.width / 2) - (menuRect.width / 2);
           break;
-        case 'top-right':
-          top = triggerRect.top;
+        case 'top-right-left':
+          top = triggerRect.top - menuRect.height;
           left = triggerRect.right;
           break;
         case 'top-right-right':
-          top = triggerRect.top;
+          top = triggerRect.top - menuRect.height;
           left = triggerRect.right - menuRect.width;
           break;
         case 'left-center':
           top = triggerRect.top + (triggerRect.height / 2) - (menuRect.height / 2);
-          left = triggerRect.left;
+          left = triggerRect.left - menuRect.width;
           break;
         case 'right-center':
           top = triggerRect.top + (triggerRect.height / 2) - (menuRect.height / 2);
-          left = triggerRect.right
+          left = triggerRect.right;
           break;
         default:
           top = triggerRect.bottom;
