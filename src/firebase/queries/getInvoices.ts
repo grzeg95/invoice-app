@@ -2,16 +2,16 @@ import {getDocs, limit, orderBy, query, QueryDocumentSnapshot, startAfter, where
 import {firestore} from '../firebase';
 import {getUserRef} from '../../models/firestore/user';
 import {getUserInvoiceCollectionRef, type UserInvoice} from '../../models/firestore/user-invoice';
-import type {InvoiceState} from '../../models/InvoiceState';
+import type {InvoiceState} from '../../models/firestore/InvoiceState';
 
 export async function getInvoices(
   pageParam: QueryDocumentSnapshot<UserInvoice> | null,
   selectedOptions: InvoiceState[],
-  userUid: string,
-  limitOfItems: number
+  limitOfItems: number,
+  userUid?: string
 ) {
 
-  if (selectedOptions.length === 0) {
+  if (selectedOptions.length === 0 || !userUid) {
     return {
       invoices: [],
       lastDocSnap: null
