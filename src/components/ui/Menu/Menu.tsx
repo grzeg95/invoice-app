@@ -1,4 +1,4 @@
-import {type ReactNode, type RefObject, useCallback, useEffect, useRef, useState} from 'react';
+import {type ReactNode, type RefObject, useCallback, useEffect, useRef} from 'react';
 import {createPortal} from 'react-dom';
 import styles from './Menu.module.scss';
 
@@ -16,13 +16,11 @@ export type MenuProps = {
   children: ReactNode;
   triggerRef: RefObject<HTMLElement | null>;
   strategiesOptions: StrategyOption[];
-  onOpen?: () => void;
   onClose?: () => void;
+  isOpen: boolean
 }
 
-export function Menu({children, triggerRef, strategiesOptions, onOpen, onClose}: MenuProps) {
-
-  const [isOpen, setIsOpen] = useState(false);
+export function Menu({children, triggerRef, strategiesOptions, onClose, isOpen}: MenuProps) {
 
   const menuRef = useRef<HTMLDivElement>(null);
 
@@ -148,23 +146,6 @@ export function Menu({children, triggerRef, strategiesOptions, onOpen, onClose}:
 
   useEffect(() => {
 
-    const trigger = triggerRef.current;
-
-    if (!trigger) {
-      return;
-    }
-
-    const handleClick = () => {
-      setIsOpen((prevIsOpen) => !prevIsOpen);
-    };
-
-    trigger.addEventListener('click', handleClick);
-
-    return () => trigger.removeEventListener('click', handleClick);
-  }, [triggerRef])
-
-  useEffect(() => {
-
     if (isOpen) {
       updatePosition();
       window.addEventListener('resize', updatePosition);
@@ -182,7 +163,7 @@ export function Menu({children, triggerRef, strategiesOptions, onOpen, onClose}:
     if (isOpen) {
       const handleKeyDown = (event: KeyboardEvent) => {
         if (event.key === 'Escape') {
-          setIsOpen(false);
+          onClose?.();
         }
       };
 
@@ -190,16 +171,14 @@ export function Menu({children, triggerRef, strategiesOptions, onOpen, onClose}:
 
       return () => window.removeEventListener('keydown', handleKeyDown);
     }
-  }, [isOpen]);
+  }, [isOpen, onClose]);
 
   useEffect(() => {
 
-    if (isOpen) {
-      onOpen?.();
-    } else {
+    if (!isOpen) {
       onClose?.();
     }
-  }, [isOpen, onClose, onOpen]);
+  }, [isOpen, onClose]);
 
   if (!isOpen) {
     return null;
@@ -207,7 +186,7 @@ export function Menu({children, triggerRef, strategiesOptions, onOpen, onClose}:
 
   return createPortal(
     <>
-      <div className={styles['menu-backdrop']} onClick={() => setIsOpen(false)}/>
+      <div className={styles['menu-backdrop']} onClick={() => onClose?.()}/>
       <div className={styles['menu']} ref={menuRef}>
         {children}
       </div>
