@@ -30,12 +30,12 @@ export function StateFilter({defaultSelectedOptions = [], onChange}: StateFilter
 
   }, [onChange, selectedOptions]);
 
-  function handleOnOpen() {
-    setIsMenuOpen(true);
-  }
-
   function handleOnClose() {
     setIsMenuOpen(false);
+  }
+
+  function toggleIsMenuOpen() {
+    setIsMenuOpen((prevIsMenuOpen) => !prevIsMenuOpen);
   }
 
   function handleOnStateSelected(e: ChangeEvent<HTMLInputElement>) {
@@ -58,6 +58,8 @@ export function StateFilter({defaultSelectedOptions = [], onChange}: StateFilter
 
       return [...prevSelectedOptions];
     });
+
+    setIsMenuOpen(false);
   }
 
   const filterStrategiesOptions: StrategyOption[] = [
@@ -67,16 +69,24 @@ export function StateFilter({defaultSelectedOptions = [], onChange}: StateFilter
 
   return (
     <div>
-      <button ref={stateFilterTrigger} className={styles['state-filter-button']}>
-        {isMobile ? 'Filter' : 'Filter by state'} <img
-        className={`${styles['state-filter-button-icon']} ${isMenuOpen ? styles['active'] : ''}`} src={isonArrowDown}
-        alt=''/>
+      <button
+        ref={stateFilterTrigger}
+        className={styles['state-filter-button']}
+        onClick={toggleIsMenuOpen}
+      >
+        {isMobile ?
+          'Filter' : 'Filter by state'}
+          <img
+            className={`${styles['state-filter-button-icon']} ${isMenuOpen ? styles['active'] : ''}`}
+            src={isonArrowDown}
+            alt=''
+          />
       </button>
       <Menu
         triggerRef={stateFilterTrigger}
         strategiesOptions={filterStrategiesOptions}
-        onOpen={handleOnOpen}
         onClose={handleOnClose}
+        isOpen={isMenuOpen}
       >
         <div className={styles['state-filter-options']}>
           {['draft', 'pending', 'paid'].map((state) => (
