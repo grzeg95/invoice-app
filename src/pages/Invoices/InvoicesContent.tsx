@@ -1,19 +1,20 @@
 import {useInfiniteQuery} from '@tanstack/react-query';
 import {QueryDocumentSnapshot} from 'firebase/firestore';
 import {useState} from 'react';
-import iconArrowRight from '../../assets/icon-arrow-right.svg';
-import iconPlus from '../../assets/icon-plus.svg';
-import illustrationEmpty from '../../assets/illustration-empty.svg';
+import {Link} from 'react-router';
 import {StateFilter} from '../../components/StateFilter/StateFilter';
 import {Button} from '../../components/ui/Button/Button';
 import {Skeleton} from '../../components/ui/Skeleton/Skeleton';
 import {BreakpointsDevices} from '../../context/Breakpoints/breakpoints';
 import {useBreakpoints} from '../../context/Breakpoints/useBreakpoints';
 import {getInvoices} from '../../firebase/queries/getInvoices';
-import type {InvoiceState} from '../../models/firestore/InvoiceState';
 import {type User} from '../../models/firestore/user';
 import type {UserInvoice} from '../../models/firestore/user-invoice';
+import type {InvoiceState} from '../../models/firestore/InvoiceState';
 import styles from './InvoicesContent.module.scss';
+import iconArrowRight from '../../assets/icon-arrow-right.svg';
+import iconPlus from '../../assets/icon-plus.svg';
+import illustrationEmpty from '../../assets/illustration-empty.svg';
 
 const currencyFormater = new Intl.NumberFormat('en-GB', {
   style: 'currency',
@@ -24,7 +25,7 @@ type InvoicesContentProps = {
   user: User;
 }
 
-export function InvoicesContent({user}: InvoicesContentProps) {
+export function InvoicesContent({ user } : InvoicesContentProps) {
 
   const [selectedStates, setSelectedStates] = useState<InvoiceState[]>(() => {
     const options: InvoiceState[] = ['draft', 'pending', 'paid'];
@@ -73,7 +74,7 @@ export function InvoicesContent({user}: InvoicesContentProps) {
       {isMobile ? (
         <div className={`${styles['invoices-mobile']}`}>
           {userInvoices?.map((userInvoice) => (
-            <a href='#' key={userInvoice.id} className={`${styles['invoice']} ${isFetching ? styles['fetching'] : ''}`}>
+            <Link to={'/' + userInvoice.id} key={userInvoice.id} className={`${styles['invoice']} ${isFetching ? styles['fetching'] : ''}`}>
               <div className={styles['invoice-top']}>
                 <div className={styles['invoice-id']}>
                   <span className={styles['invoice-id-hash']}>#</span>
@@ -93,14 +94,14 @@ export function InvoicesContent({user}: InvoicesContentProps) {
                   <div className={styles['invoice-status-label']}>{userInvoice.state}</div>
                 </div>
               </div>
-            </a>
+            </Link>
           ))}
           {(!userInvoices || userInvoices?.length === 0) && !!selectedStates.length && isFetching && <Skeleton className={styles['invoice-skeleton']}/>}
         </div>
       ) : (
         <div className={`${styles['invoices-tablet-and-above']} ${isFetching ? styles['fetching'] : ''}`}>
           {userInvoices?.map((userInvoice) => (
-            <a href='#' key={userInvoice.id} className={`${styles['invoice']} ${isFetching ? styles['fetching'] : ''}`}>
+            <Link to={'/' + userInvoice.id} key={userInvoice.id} className={`${styles['invoice']} ${isFetching ? styles['fetching'] : ''}`}>
               <div className={styles['invoice-id']}>
                 <span className={styles['invoice-id-hash']}>#</span>
                 <span>{userInvoice.id}</span>
@@ -119,7 +120,7 @@ export function InvoicesContent({user}: InvoicesContentProps) {
               <div>
                 <img src={iconArrowRight} alt='Show More'/>
               </div>
-            </a>
+            </Link>
           ))}
           {(!userInvoices || userInvoices?.length === 0) && !!selectedStates.length && isFetching && <Skeleton className={styles['invoice-skeleton']}/>}
         </div>
