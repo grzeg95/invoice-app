@@ -27,6 +27,6 @@ exports['invoices'] = {
   create: onCall((cr) => handleOnCall(cr, './endpoints/invoices/create')),
   delete: onCall((cr) => handleOnCall(cr, './endpoints/invoices/delete')),
   update: onCall((cr) => handleOnCall(cr, './endpoints/invoices/update')),
-  'mark-as-paid': onCall((cr) => handleOnCall(cr, './endpoints/invoices/mark-as-paid')),
-  'mark-as-pending': onCall((cr) => handleOnCall(cr, './endpoints/invoices/mark-as-pending')),
+  'markaspaid': onCall((cr) => handleOnCall(cr, './endpoints/invoices/mark-as-paid')),
+  'markaspending': onCall((cr) => handleOnCall(cr, './endpoints/invoices/mark-as-pending')),
 };
