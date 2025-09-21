@@ -40,13 +40,13 @@ export function getUserInvoiceCollectionRef(userRef: DocumentReference<User, Use
   return collection(userRef, Collections.userInvoices).withConverter(converter);
 }
 
-export function userInvoiceToFirestore(user: UserInvoice | PartialWithFieldValue<UserInvoice> | WithFieldValue<UserInvoice> | undefined) {
+export function userInvoiceToFirestore(userInvoice: UserInvoice | PartialWithFieldValue<UserInvoice> | WithFieldValue<UserInvoice> | undefined) {
   return {
-    paymentDue: user?.paymentDue,
-    clientName: user?.clientName,
-    clientEmail: user?.clientEmail,
-    state: user?.state,
-    createdAt: user?.createdAt,
-    totalPrice: user?.totalPrice
+    paymentDue: userInvoice?.paymentDue,
+    clientName: userInvoice?.clientName,
+    clientEmail: userInvoice?.clientEmail,
+    state: userInvoice?.state,
+    createdAt: userInvoice?.createdAt,
+    totalPrice: userInvoice?.totalPrice
   };
 }
