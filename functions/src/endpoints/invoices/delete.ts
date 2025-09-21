@@ -37,6 +37,9 @@ export const handler = (request: CallableRequest) => {
 
     testRequirement(!invoiceSnap.exists, {code: 'invalid-argument'});
 
+    const invoice = invoiceSnap.data()!;
+    testRequirement(invoice.state === 'paid', {code: 'invalid-argument'});
+
     const userInvoiceRef = getUserInvoiceRef(userRef, invoiceRef.id);
     const userInvoiceSnap = await transaction.get(userInvoiceRef);
 
