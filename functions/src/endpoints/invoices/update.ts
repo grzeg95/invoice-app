@@ -52,17 +52,17 @@ export const handler = (request: CallableRequest) => {
 
     testRequirement(!invoiceSnap.exists, {code: 'invalid-argument'});
 
-    const invoice = invoiceSnap.data();
-    testRequirement(invoice!.state === 'paid', {code: 'invalid-argument'});
+    const invoice = invoiceSnap.data()!;
+    testRequirement(invoice.state === 'paid', {code: 'invalid-argument'});
 
     let parsedInvoice;
 
-    if (invoice!.state === 'draft') {
+    if (invoice.state === 'draft') {
       parsedInvoice = invoiceSchema.safeParse(request.data);
       testRequirement(!!parsedInvoice.error, {code: 'invalid-argument'});
     }
 
-    if (invoice!.state === 'pending') {
+    if (invoice.state === 'pending') {
       parsedInvoice = invoiceSchema.omit({issueDate: true}).safeParse(request.data);
       testRequirement(!!parsedInvoice.error, {code: 'invalid-argument'});
     }
