@@ -23,10 +23,10 @@ function handleOnCall(cr: CallableRequest, functionHandlerPath: string) {
   return require(functionHandlerPath).handler(cr).catch(globalErrorHandler);
 }
 
-exports['invoice'] = {
-  create: onCall((cr) => handleOnCall(cr, './endpoints/invoice/create')),
-  delete: onCall((cr) => handleOnCall(cr, './endpoints/invoice/delete')),
-  update: onCall((cr) => handleOnCall(cr, './endpoints/invoice/update')),
-  'mark-as-paid': onCall((cr) => handleOnCall(cr, './endpoints/invoice/mark-as-paid')),
-  'mark-as-pending': onCall((cr) => handleOnCall(cr, './endpoints/invoice/mark-as-pending')),
+exports['invoices'] = {
+  create: onCall((cr) => handleOnCall(cr, './endpoints/invoices/create')),
+  delete: onCall((cr) => handleOnCall(cr, './endpoints/invoices/delete')),
+  update: onCall((cr) => handleOnCall(cr, './endpoints/invoices/update')),
+  'mark-as-paid': onCall((cr) => handleOnCall(cr, './endpoints/invoices/mark-as-paid')),
+  'mark-as-pending': onCall((cr) => handleOnCall(cr, './endpoints/invoices/mark-as-pending')),
 };
