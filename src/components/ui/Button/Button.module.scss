@@ -26,6 +26,12 @@
       padding: 8px 17px 8px 8px;
     }
   }
+
+  &[disabled] {
+    opacity: 0.5;
+    pointer-events: none;
+    cursor: default;
+  }
 }
 
 .icon-container {

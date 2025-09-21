@@ -9,6 +9,7 @@ type ButtonProps = {
   icon?: string;
   onClick?: () => void;
   children?: ReactNode;
+  disabled?: boolean;
 }
 
 const buttonStyles = cva(
@@ -33,13 +34,17 @@ const buttonStyles = cva(
   }
 );
 
-export function Button({appearance = 'primary', icon, children, onClick}: ButtonProps) {
+export function Button({appearance = 'primary', icon, children, onClick, disabled = false}: ButtonProps) {
 
   const {activeBreakpoints} = useBreakpoints();
   const isMobile = !!activeBreakpoints.find((b) => b === BreakpointsDevices.mobile);
 
   return (
-    <button className={buttonStyles({appearance, icon: !!icon, size: isMobile ? 'small' : 'large'})} onClick={onClick}>
+    <button
+      className={buttonStyles({appearance, icon: !!icon, size: isMobile ? 'small' : 'large'})}
+      onClick={() => !disabled && onClick?.()}
+      disabled={disabled}
+    >
       {
         icon && <div className={styles['icon-container']}>
           <img src={icon} alt=''/>
