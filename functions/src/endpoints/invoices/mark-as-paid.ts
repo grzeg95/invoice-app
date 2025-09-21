@@ -1,7 +1,7 @@
 import {getFirestore} from 'firebase-admin/firestore';
 import {CallableRequest} from 'firebase-functions/https';
 import z from 'zod';
-import {getInvoiceRef} from '../../models/firestore/invoice';
+import {getInvoiceRef, InvoiceDoc} from '../../models/firestore/invoice';
 import {getUserRef} from '../../models/firestore/user';
 import {getUserInvoiceRef} from '../../models/firestore/user-invoice';
 import {testRequirement} from '../../utils/test-requirement';
@@ -42,18 +42,18 @@ export const handler = (request: CallableRequest) => {
     testRequirement(!userInvoiceSnap.exists, {code: 'invalid-argument'});
 
     transactionWrite.update(invoiceRef, {
-      status: 'paid'
-    });
+      state: 'paid'
+    } as InvoiceDoc);
 
     transactionWrite.update(userInvoiceRef, {
-      status: 'paid'
-    });
+      state: 'paid'
+    } as InvoiceDoc);
 
     await transactionWrite.execute();
 
     return {
       invoiceId: invoiceRef.id,
-      status: 'paid'
+      state: 'paid'
     };
   });
 };
