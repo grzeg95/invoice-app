@@ -1,3 +1,4 @@
+import {BigNumber} from 'bignumber.js';
 import {getFirestore, Timestamp} from 'firebase-admin/firestore';
 import {CallableRequest} from 'firebase-functions/https';
 import z from 'zod';
@@ -29,7 +30,7 @@ const invoiceSchema = z.object({
   items: z.array(z.object({
     name: z.string(),
     quantity: z.number(),
-    price: z.number(),
+    price: z.number()
   }))
 });
 
@@ -57,7 +58,7 @@ export const handler = <T>(request: CallableRequest | {data: T, auth: {uid: stri
     const invoiceRef = getInvoiceRef(firestore);
     const userInvoiceRef = getUserInvoiceRef(userRef, invoiceRef.id);
 
-    const totalPrice = invoiceData.items.reduce((acc, item) => acc + item.price * item.quantity, 0);
+    const totalPrice = invoiceData.items.reduce((acc, item) => acc.plus(new BigNumber(item.price).multipliedBy(new BigNumber(item.quantity))), new BigNumber(0));
 
     transactionWrite.set(userRef, {
       ...userToFirestore(user),
@@ -80,7 +81,7 @@ export const handler = <T>(request: CallableRequest | {data: T, auth: {uid: stri
       clientName: invoiceData.clientName,
       clientEmail: invoiceData.clientEmail,
       state: invoiceData.state,
-      totalPrice
+      totalPrice: totalPrice.toNumber()
     } as UserInvoiceDoc);
 
     await transactionWrite.execute();

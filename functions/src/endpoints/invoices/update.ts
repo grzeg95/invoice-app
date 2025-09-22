@@ -1,3 +1,4 @@
+import {BigNumber} from 'bignumber.js';
 import {getFirestore, Timestamp} from 'firebase-admin/firestore';
 import {CallableRequest} from 'firebase-functions/https';
 import z from 'zod';
@@ -76,7 +77,7 @@ export const handler = (request: CallableRequest) => {
 
     const userInvoice = userInvoiceSnap.data();
 
-    const totalPrice = invoiceData.items.reduce((acc, item) => acc + item.price * item.quantity, 0);
+    const totalPrice = invoiceData.items.reduce((acc, item) => acc.plus(new BigNumber(item.price).multipliedBy(new BigNumber(item.quantity))), new BigNumber(0));
 
     const paymentDue = invoice!.issueDate.toDate();
     paymentDue.setDate(paymentDue.getDate() + invoiceData.paymentDueDays);
@@ -92,7 +93,7 @@ export const handler = (request: CallableRequest) => {
       paymentDue: Timestamp.fromDate(paymentDue),
       clientName: invoiceData.clientName,
       clientEmail: invoiceData.clientEmail,
-      totalPrice
+      totalPrice: totalPrice.toNumber()
     } as UserInvoiceDoc);
 
     await transactionWrite.execute();
