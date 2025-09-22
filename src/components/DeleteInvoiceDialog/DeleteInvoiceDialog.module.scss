@@ -1,0 +1,31 @@
+@use '../../styles/layout' as layout;
+
+.dialog-content {
+
+  padding: 32px;
+  min-width: 327px;
+  background: white;
+  border-radius: 0.5rem;
+  max-width: 480px;
+
+  .dialog-description {
+    color: var(--gray-500);
+  }
+
+  .dialog-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+  }
+}
+
+html[data-theme='dark'] {
+
+  .dialog-content {
+    background: var(--gray-920);
+
+    .dialog-description {
+      color: var(--gray-100);
+    }
+  }
+}

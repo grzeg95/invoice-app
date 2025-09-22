@@ -1,6 +1,7 @@
 import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query';
-import {useEffect} from 'react';
+import {useEffect, useState} from 'react';
 import {useNavigate, useParams} from 'react-router';
+import {DeleteInvoiceDialog} from '../../components/DeleteInvoiceDialog/DeleteInvoiceDialog';
 import {Button} from '../../components/ui/Button/Button';
 import {Skeleton} from '../../components/ui/Skeleton/Skeleton';
 import {BreakpointsDevices} from '../../context/Breakpoints/breakpoints';
@@ -19,6 +20,8 @@ const currencyFormater = new Intl.NumberFormat('en-GB', {
 });
 
 export function Invoice() {
+
+  const [isDialogDeleteOpen, setIsDialogDeleteOpen] = useState(false);
 
   const {activeBreakpoints} = useBreakpoints();
   const isMobile = !!activeBreakpoints.find((b) => b === BreakpointsDevices.mobile);
@@ -96,6 +99,15 @@ export function Invoice() {
 
   const mutationsIsPending = invoicesMarkAsPendingIsPaid || invoiceMarkAsPendingMutationIsPending || invoiceDeleteMutationIsPending;
 
+  function handleDialogDeleteOnClose(result: boolean | undefined) {
+
+    setIsDialogDeleteOpen(false);
+
+    if (result) {
+      invoiceDelete(invoice!);
+    }
+  }
+
   return (
     <>
       <div className={styles['invoice-wrapper']}>
@@ -116,7 +128,7 @@ export function Invoice() {
               {invoice!.state !== 'paid' && (
                 <div className={styles['invoice-actions']}>
                   <Button disabled={mutationsIsPending} appearance='secondary'>Edit</Button>
-                  <Button disabled={mutationsIsPending} onClick={() => invoiceDelete(invoice!)} appearance='danger'>Delete</Button>
+                  <Button disabled={mutationsIsPending} onClick={() => setIsDialogDeleteOpen(true)} appearance='danger'>Delete</Button>
                   <Button disabled={mutationsIsPending} onClick={() => changeState(invoice!)}>Mark as {invoice!.state === 'draft' ? 'Pending' : invoice!.state === 'pending' ? 'Paid' : ''}</Button>
               </div>
               )}
@@ -205,6 +217,8 @@ export function Invoice() {
                 </div>
               </div>
             </div>
+
+            <DeleteInvoiceDialog invoice={invoice!} isOpen={isDialogDeleteOpen} onClose={(result: boolean | undefined) => handleDialogDeleteOnClose(result)}/>
           </div>
         )}
       </div>
