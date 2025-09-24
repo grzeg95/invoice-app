@@ -3,6 +3,7 @@ import {initializeApp} from 'firebase-admin/app';
 import {setGlobalOptions} from "firebase-functions";
 import {CallableRequest, onCall} from 'firebase-functions/https';
 import {globalErrorHandler} from './utils/global-error-handler';
+import {handler as useroncreate} from './events/user-on-create';
 
 initializeApp();
 
@@ -30,3 +31,5 @@ exports['invoices'] = {
   'markaspaid': onCall((cr) => handleOnCall(cr, './endpoints/invoices/mark-as-paid')),
   'markaspending': onCall((cr) => handleOnCall(cr, './endpoints/invoices/mark-as-pending')),
 };
+
+exports.useroncreate = useroncreate;
