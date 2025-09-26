@@ -1,3 +1,4 @@
+import {cva} from 'class-variance-authority';
 import {type ReactNode, type RefObject, useEffect, useImperativeHandle, useRef} from 'react';
 import {createPortal} from 'react-dom';
 import {useFocusTrap} from '../../../hooks/useFocusTrap';
@@ -17,9 +18,12 @@ export type DialogProps = {
   onClose?: () => void;
   isOpen: boolean;
   ref?: RefObject<DialogRef | null> | null;
+  backdropClassName?: string
+  wrapperClassName?: string
+  paneClassName?: string
 }
 
-export function Dialog({children, onClose, isOpen, ref}: DialogProps) {
+export function Dialog({children, onClose, isOpen, ref, backdropClassName, wrapperClassName, paneClassName}: DialogProps) {
 
   const dialogId = useRef(-1);
 
@@ -98,9 +102,9 @@ export function Dialog({children, onClose, isOpen, ref}: DialogProps) {
 
   return createPortal(
     <>
-      <div className={styles['dialog-backdrop']} onClick={() => onClose?.()}/>
-      <div className={styles['dialog-wrapper']}>
-        <div className={styles['dialog-pane']} ref={trapRef}>
+      <div className={cva([styles['dialog-backdrop'], backdropClassName])()} onClick={() => onClose?.()}/>
+      <div className={cva([styles['dialog-wrapper'], wrapperClassName])()}>
+        <div className={cva([styles['dialog-pane'], paneClassName])()} ref={trapRef}>
           {children}
         </div>
       </div>
